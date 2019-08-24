@@ -10,7 +10,8 @@ module.exports = {
     /*输出到dist文件夹，输出文件名字为bundle.js*/
     output: {
 			path: path.join(__dirname, './dist'),
-			filename: 'bundle.js'
+			filename: 'bundle.js',
+			chunkFilename: '[name].[chunkhash].js' // 不配置默认是[name].[filename]了,chunkhash每次打包生成不同hash值文件名防止缓存
 		},
 		devtool: 'inline-source-map',
 		devServer: {
@@ -27,6 +28,26 @@ module.exports = {
 					test: /\.(js|jsx)$/,
 					loader: 'babel-loader?cacheDirectory=true', // 提出.babelrc配置文件
 					include: path.join(__dirname, 'src')
+				},
+				/*  
+				* css-loader使你能够使用类似@import 和 url(...)的方法实现 require()的功能 
+				* style-loader将所有的计算后的样式加入页面中； 二者组合在一起使你能够把样式表嵌入webpack打包后的JS文件中。
+				*/
+				{
+					test: /\.css$/,
+					use: ['style-loader', 'css-loader']
+				},
+				/*
+				* 编译图片
+				*/
+				{
+					test: /\.(png|jpg|gif)$/,
+					use: [{
+						loader: 'url-loader',
+						options: {
+							limit: 8192 // options limit 8192意思是，小于等于8K的图片会被转成base64编码，直接插入HTML中，减少HTTP请求。
+						}
+					}]
 				}
 			]
 		},
