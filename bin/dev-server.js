@@ -19,6 +19,6 @@ const server = new WebpackDevServer(compiler, {
 	*/
 });
 
-server.listen(9090, 'localhost', function (err) {
+server.listen(8081, 'localhost', function (err) {
 	if (err) throw err
 })
