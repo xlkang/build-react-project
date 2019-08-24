@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     /*入口*/
@@ -10,8 +11,25 @@ module.exports = {
     /*输出到dist文件夹，输出文件名字为bundle.js*/
     output: {
 			path: path.join(__dirname, './dist'),
-			filename: 'bundle.js',
-			chunkFilename: '[name].[chunkhash].js' // 不配置默认是[name].[filename]了,chunkhash每次打包生成不同hash值文件名防止缓存
+			// filename: 'bundle.js',
+			filename: '[name].[hash].js',   // 使用chunkhash或者contenthash时与webpact-dev-server --hot冲突报错，见 https://github.com/webpack/webpack-dev-server/issues/377
+			chunkFilename: '[name].[chunkhash].js', // 不配置默认是[name].[filename]了,chunkhash每次打包生成不同hash值文件名防止缓存
+		},
+		/*
+		*	webpack4的作法，废弃了webpack.optimize.CommonsChunkPlugin
+		* 分离runtime文件和mode_modules中的vendor
+		*/
+		optimization: {
+			runtimeChunk: 'single',
+			splitChunks: {
+			  cacheGroups: {
+			    vendor: {
+			      test: /[\\/]node_modules[\\/]/,
+			      name: 'vendors',
+			      chunks: 'all'
+		      }
+		    }
+			}
 		},
 		devtool: 'inline-source-map',
 		devServer: {
@@ -60,11 +78,17 @@ module.exports = {
 				reducers: path.join(__dirname, 'src/redux/reducers'),
 				// redux: path.join(__dirname, 'src/redux')
 			}
-		}
+		},
 		/*
 		* 模块热替换：通过命令行 --hot代替
 		* plugins:[
 		*   new webpack.HotModuleReplacementPlugin()
 		* ]
 		*/
+		plugins: [
+			new HtmlWebpackPlugin({
+				filename: 'index.html',
+				template: path.join(__dirname, 'src/index.html')
+			}),
+		],
 };
