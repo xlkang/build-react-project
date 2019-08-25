@@ -3,6 +3,7 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+		mode: 'development', // 'production' | 'development' | 'none'
     /*入口*/
     entry: [
 			'react-hot-loader/patch',
