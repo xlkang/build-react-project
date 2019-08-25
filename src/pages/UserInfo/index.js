@@ -13,7 +13,7 @@ class UserInfo extends Component {
 							errorMsg ? errorMsg :
 								<div>
 									<p>用户信息：</p>
-									<p>用户名：{userInfo.name}</p>
+									<p>用户名zi：{userInfo.name}</p>
 									<p>介绍：{userInfo.intro}</p>
 								</div>
 						)

@@ -1,3 +1,4 @@
+const merge = require('webpack-merge');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
@@ -6,31 +7,12 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin'); // 压�
 // const MiniCssExtractPlugin = require('mini-css-extract-plugin') // 分离CSS
 const webpack = require('webpack');
 
-module.exports = {
-	mode: 'production', // 'production' | 'development' | 'none'
+const commonConfig = require('./webpack.common.config.js');
+
+const publicConfig = {
+	mode: 'production',
 	devtool: 'cheap-module-source-map',
-	entry: {
-		app: [
-			path.join(__dirname, 'src/index.js')
-		],
-	},
-	output: {
-		path: path.join(__dirname, './dist'),
-		filename: '[name].[chunkhash].js',
-		chunkFilename: '[name].[chunkhash].js',
-		publicPath : '/'
-	},
 	optimization: {
-		runtimeChunk: 'single',
-		splitChunks: {
-			cacheGroups: {
-				vendor: {
-					test: /[\\/]node_modules[\\/]/,
-					name: 'vendors',
-					chunks: 'all'
-				}
-			}
-		},
 		moduleIds: 'hashed',
 		minimizer: [
 			// js mini
@@ -44,48 +26,21 @@ module.exports = {
 		]
 	},
 	module: {
-		rules: [{
-			test: /\.js$/,
-			use: ['babel-loader'],
-			include: path.join(__dirname, 'src')
-		}, {
-			test: /\.css$/,
-			use: ['style-loader', 'css-loader']
-		}, {
-			test: /\.(png|jpg|gif)$/,
-			use: [{
-				loader: 'url-loader',
-				options: {
-					limit: 8192
-				}
-			}]
-		}]
+		rules: []
 	},
 	plugins: [
-		new HtmlWebpackPlugin({  // 自动把js等注入html
-			filename: 'index.html',
-			template: path.join(__dirname, 'src/index.html')
+		new CleanWebpackPlugin({
+			// 在Webpack编译之前删除文件一次
+			cleanOnceBeforeBuildPatterns: ['**/*', '!api', '!api/*.*'],
+			// 在每次构建（包括监视模式）后删除与此模式匹配的文件。
+			// cleanAfterEveryBuildPatterns: ['*.*', '!api'],
 		}),
-		new UglifyJSPlugin(),  // 压缩文件
 		new webpack.DefinePlugin({
 			'process.env': {
 				'NODE_ENV': JSON.stringify('production')
 			}
 		}),
-		new webpack.HashedModuleIdsPlugin({
-			hashFunction: 'sha256',
-			hashDigest: 'hex',
-			hashDigestLength: 20
-		}),
-		new CleanWebpackPlugin(),   // 自动清理dist目录
-	],
-	resolve: {
-		alias: {
-			pages: path.join(__dirname, 'src/pages'),
-			component: path.join(__dirname, 'src/component'),
-			router: path.join(__dirname, 'src/router'),
-			actions: path.join(__dirname, 'src/redux/actions'),
-			reducers: path.join(__dirname, 'src/redux/reducers')
-		}
-	}
+	]
 };
+
+module.exports = merge(commonConfig, publicConfig);
