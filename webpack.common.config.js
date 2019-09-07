@@ -44,7 +44,8 @@ commonConfig = {
 					limit: 8192 // options limit 8192意思是，小于等于8K的图片会被转成base64编码，直接插入HTML中，减少HTTP请求。
 				}
 			}]
-		}, 
+		},
+		 /* 由于配置postcss，在dev和prod中分别配置css和style loader 重复引入loader会报错 */
 		// {
 		// 	test: /\.css$/,
 		// 	use: ["style-loader", "css-loader"]
@@ -63,7 +64,8 @@ commonConfig = {
 			components: path.join(__dirname, 'src/components'),
 			router: path.join(__dirname, 'src/router'),
 			actions: path.join(__dirname, 'src/redux/actions'),
-			reducers: path.join(__dirname, 'src/redux/reducers')
+			reducers: path.join(__dirname, 'src/redux/reducers'),
+			mock: path.join(__dirname, 'mock')
 		}
 	}
 };
