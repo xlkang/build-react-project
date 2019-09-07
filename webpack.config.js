@@ -1,6 +1,4 @@
 const merge = require('webpack-merge');
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin'); // 压缩
@@ -26,7 +24,13 @@ const publicConfig = {
 		]
 	},
 	module: {
-		rules: []
+		rules: [{
+			test: /\.css$/,
+			use: ExtractTextPlugin.extract({
+				fallback: "style-loader",
+				use: ["css-loader", "postcss-loader"]
+			})
+		}]
 	},
 	plugins: [
 		new CleanWebpackPlugin({

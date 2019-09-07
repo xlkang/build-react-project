@@ -1,6 +1,5 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const webpack = require('webpack');
 
 commonConfig = {
 	entry: {
@@ -45,10 +44,12 @@ commonConfig = {
 					limit: 8192 // options limit 8192意思是，小于等于8K的图片会被转成base64编码，直接插入HTML中，减少HTTP请求。
 				}
 			}]
-		}, {
-			test: /\.css$/,
-			use: ["style-loader", "css-loader"]
-		}]
+		}, 
+		// {
+		// 	test: /\.css$/,
+		// 	use: ["style-loader", "css-loader"]
+		// }
+		]
 	},
 	plugins: [
 		new HtmlWebpackPlugin({

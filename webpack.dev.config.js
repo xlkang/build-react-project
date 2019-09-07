@@ -2,7 +2,6 @@ const merge = require('webpack-merge');
 const path = require('path');
 
 const commonConfig = require('./webpack.common.config.js');
-const webpack = require('webpack');
 
 const devConfig = {
 	mode: 'development', // 'production' | 'development' | 'none'
@@ -26,6 +25,10 @@ const devConfig = {
 		// 	test: /\.css$/,
 		// 	use: ["style-loader", "css-loader"]
 		// }]
+		rules: [{
+			test: /\.(css|scss)$/,
+			use: ["style-loader", "css-loader", "postcss-loader"]
+		}]
 	},
 	devServer: {
 		port: 8081,
