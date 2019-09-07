@@ -7,8 +7,9 @@ import store from './redux/store';
 import {BrowserRouter as Router} from 'react-router-dom';
 import App from 'components/App';
 
-
-import getRouter from 'router';
+if (MOCK) {
+	require('mock/mock');
+}
 
 /*初始化*/
 renderWithHotReload(App);
