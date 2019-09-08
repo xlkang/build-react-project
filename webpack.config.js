@@ -28,7 +28,20 @@ const publicConfig = {
 			test: /\.css$/,
 			use: ExtractTextPlugin.extract({
 				fallback: "style-loader",
-				use: ["css-loader", "postcss-loader"]
+				use: [
+					// "css-loader?modules&localIdentName=[local]-[hash:base64:5]", 
+					{ 
+						loader: 'css-loader', 
+						options: {
+							sourceMap: true, 
+							importLoaders: 2, 
+							localsConvention: 'camelCase',
+							// localIdentName: '[name]__[local]___[hash:base64:5]', 
+							modules: true
+						}
+					},
+					"postcss-loader"
+				]
 			})
 		}]
 	},

@@ -27,8 +27,23 @@ const devConfig = {
 		// 	use: ["style-loader", "css-loader"]
 		// }]
 		rules: [{
-			test: /\.(css|scss)$/,
-			use: ["style-loader", "css-loader", "postcss-loader"]
+			test: /\.css$/,
+			use: [
+				"style-loader", 
+				// "css-loader?modules&localIdentName=[local]-[hash:base64:5]", 
+				/* css-loader 3支持option配置，移除了localIdentName配置项，替换为localConvention */
+				{
+					loader: 'css-loader', 
+					options: { 
+						sourceMap: true, 
+						importLoaders: 2, 
+						localsConvention: 'camelCase',
+						// localIdentName: '[name]__[local]___[hash:base64:5]', 
+						modules: true
+					}
+				},
+				"postcss-loader"
+			]
 		}]
 	},
 	devServer: {
