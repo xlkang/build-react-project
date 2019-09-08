@@ -47,6 +47,10 @@ const devConfig = {
 		}]
 	},
 	devServer: {
+		proxy: {
+			/** API请求，代理到json-server服务器:8090,端口配置在命令行参数中 */
+			"/api/*": "http://localhost:8090/$1"
+		},
 		port: 8081,
 		contentBase: path.join(__dirname, './dist'),
 		historyApiFallback: true,
@@ -58,11 +62,12 @@ const devConfig = {
 	*   new webpack.HotModuleReplacementPlugin()
 	* ]
 	*/
-	plugins:[
-		new webpack.DefinePlugin({
-			MOCK: true
-		})
-	]
+	/** 使用json-server替代mock.js */
+	// plugins:[
+	// 	new webpack.DefinePlugin({
+	// 		MOCK: true
+	// 	})
+	// ]
 };
 
 module.exports = merge({

@@ -7,9 +7,14 @@ import store from './redux/store';
 import {BrowserRouter as Router} from 'react-router-dom';
 import App from 'components/App';
 
-if (MOCK) {
-	require('mock/mock');
-}
+/**
+ * 使用json-server替代
+ * if (MOCK) {
+ *		require('mock/mock');
+ *	}
+ * 
+ */
+
 
 /*初始化*/
 renderWithHotReload(App);
