@@ -1,4 +1,7 @@
 .page-box {
 	border: 1px solid red;
-	display:flex;
+}
+
+.box {
+	border: 1px solid red;
 }
