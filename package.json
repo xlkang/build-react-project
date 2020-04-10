@@ -1,13 +1,13 @@
 {
   "name": "my-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A Dashboard Of My React Practice Projects.",
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.config.js --color --progress --hot",
     "dev": "node bin/dev-server --color --progress --hot",
 		"build": "webpack --config webpack.config.js",
-		"mock": "json-server mock/mock.js --watch --port 8090",
+		"mock": "json-server mock/mock.js --watch -c mock/json-server.json",
 		"mockdev": "npm run mock & npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
