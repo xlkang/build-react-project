@@ -7,15 +7,39 @@
 // 'intro': '@word(20)'
 // });
 
-let Mock = require('mockjs');
+const Mock = require('mockjs');
+const { Random } = Mock;
 
-var Random = Mock.Random;
-
+/** 
+ * 使用json-server以后，只用mockjs产生数据
+ */
 module.exports = function () {
-	var data = {};
-	data.user = {
-		'name': Random.cname(),
-		'intro': Random.word(20)
-	};
+	let data = {};
+
+	data.user =  Mock.mock({
+		'name': '@cname',
+		'intro': '@word(20)'
+	});
+
+	// var data = Mock.mock({
+  //   'course|227': [
+  //     {
+  //       // 属性 id 是一个自增数，起始值为 1，每次增 1
+  //       'id|+1': 1000,
+  //       course_name: '@ctitle(5,10)',
+  //       autor: '@cname',
+  //       college: '@ctitle(6)',
+  //       'category_Id|1-6': 1
+  //     }
+  //   ],
+  //   'course_category|6': [
+  //     {
+  //       "id|+1": 1,
+  //       "pid": -1,
+  //       cName: '@ctitle(4)'
+  //     }
+  //   ]
+  // });
+	
 	return data;
 };
